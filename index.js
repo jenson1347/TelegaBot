@@ -4,6 +4,7 @@ const bot = new TelegramApi(token, {polling: true});
 const cron = require("node-cron");
 const shell = require("shelljs");
 var date = new Date();
+let chatID = [222222];
 var myDay = getMyDay(date);
 bot.setMyCommands(
       [
@@ -30,6 +31,15 @@ const optionsNo = {
   })
 }
 
+function removeID (arr,Id) {
+  let index = 0;
+  index = arr.indexOf(Id);
+  [arr[0], arr[index]] = [arr[index], arr[0]];
+  arr.shift();
+  for (let i = 0; i < arr.length; i++) {
+  }
+}
+
 
 let pleasureWords = ["Ты секси", "Я тебя люблю", "Хочу от тебя детей"];
 var week = 
@@ -43,7 +53,7 @@ var week =
     'https://bonnycards.ru/images/dni-nedeli/small/s-subbota0054.jpg'
 ]
 
-let chatID = [];
+
 let maxIndex = pleasureWords.length;
 let minIndex = 0;
 function getRandomInt(minIndex, maxIndex) {
@@ -51,31 +61,32 @@ function getRandomInt(minIndex, maxIndex) {
   max = Math.floor(maxIndex);
   return Math.floor(Math.random() * (max - min)) + min;
 }
-function checkID (chatID, elem) {
-  for (let i = 0; i < chatID.length; i++) {
-    if (chatID[i]===elem) {
+function checkID (arr, elem) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i]===elem) {
       return true;
     }
   return false;
   }
 }
 
-  cron.schedule('* * * * * *', function() {
+  /*
+  cron.schedule('* * * * *', function() {
     console.log('Количество чатов: ' + chatID.length); 
   })
-
+*/
   cron.schedule('0 7 * * *', getMyDay);
   function getMyDay (date) {
     day = date.getDay();
     return day;
   }
 
-  cron.schedule('* * * * *', async function() {
+  cron.schedule('*/30 * * * *', async function() {
     for (let i = 0; i < chatID.length; i++) {
        await bot.sendMessage(chatID[i], pleasureWords[getRandomInt(minIndex,maxIndex)]);
     } 
   });
-  cron.schedule('* * * * *', async function() {
+  cron.schedule('15 7 * * *', async function() {
     
     let flag = -1;
 
@@ -135,18 +146,24 @@ bot.on ('callback_query', async msg => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
   if (data =='no') {
-  if (checkID(chatID,chatId)) {
-  chatID.pop()
-  bot.sendMessage(chatId, 'Джентельмен идёт домой');
-  return;
-}
+    removeID(chatID,chatId);
+    console.log('Количество чатов: ' + chatID.length);
+    bot.sendMessage(chatId, 'Джентельмен идёт домой');
+    for (let i = 0; i < chatID.length; i++) {
+    console.log(chatID[i]);}
+    return;
+
 }
   if (data=="yes") {
     if (!checkID(chatID,chatId)) {
     chatID.push(chatId);
+    console.log('Количество чатов: ' + chatID.length);
     bot.sendMessage(chatId, 'Джентельмен начинает работать');
+    for (let i = 0; i < chatID.length; i++) {
+    console.log(chatID[i]);}
     return;
   }
   }
 
 })
+//bot.sendMessage(chatId, 'Джентельмен идёт домой');
