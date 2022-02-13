@@ -4,7 +4,7 @@ const bot = new TelegramApi(token, {polling: true});
 const cron = require("node-cron");
 const shell = require("shelljs");
 var date = new Date();
-let chatID = [222222];
+let chatID = [111111];
 var myDay = getMyDay(date);
 bot.setMyCommands(
       [
@@ -62,13 +62,18 @@ function getRandomInt(minIndex, maxIndex) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 function checkID (arr, elem) {
+  var flag;
   for (let i = 0; i < arr.length; i++) {
     if (arr[i]===elem) {
-      return true;
+       flag = true;
     }
-  return false;
-  }
+  else {
+    flag = false;
+    }
 }
+return flag;
+}
+
 
   /*
   cron.schedule('* * * * *', function() {
@@ -145,24 +150,35 @@ bot.on('message', async msg => {
 bot.on ('callback_query', async msg => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
-  if (data =='no') {
-    removeID(chatID,chatId);
-    console.log('Количество чатов: ' + chatID.length);
-    bot.sendMessage(chatId, 'Джентельмен идёт домой');
-    for (let i = 0; i < chatID.length; i++) {
-    console.log(chatID[i]);}
-    return;
-
+  if (data == 'no') {
+    if (checkID(chatID,chatId)) {
+      console.log('Количество чатов до удаления: ' + chatID.length);
+      removeID(chatID,chatId);
+      console.log('Количество чатов после удаления: ' + chatID.length);
+      bot.sendMessage(chatId, 'Джентельмен идёт домой');
+      for (let i = 0; i < chatID.length; i++) {
+      console.log(chatID[i]);}
+      return;
+    }
+    else {
+      console.log('Количество чатов: ' + chatID.length);
+      bot.sendMessage(chatId, 'Джентельмен уже дома');
+    }
 }
-  if (data=="yes") {
+  if (data=='yes') {
+    console.log(checkID(chatID,chatId));
     if (!checkID(chatID,chatId)) {
-    chatID.push(chatId);
-    console.log('Количество чатов: ' + chatID.length);
-    bot.sendMessage(chatId, 'Джентельмен начинает работать');
-    for (let i = 0; i < chatID.length; i++) {
-    console.log(chatID[i]);}
-    return;
+      chatID.push(chatId);
+      console.log('Создан чат');
+      bot.sendMessage(chatId, 'Джентельмен начинает работать');
+      return;
+
   }
+    else {
+      console.log('Чат уже существует');
+      bot.sendMessage(chatId, 'Джентельмен уже работает');
+      return;
+    }
   }
 
 })
