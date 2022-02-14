@@ -3,7 +3,16 @@ const token ='5266118697:AAGkMkCfEkAjW158rroDICiFwv_pyr4oNSQ';
 const bot = new TelegramApi(token, {polling: true});
 const cron = require("node-cron");
 const shell = require("shelljs");
-var date = new Date();
+
+
+
+var date; 
+
+
+cron.schedule('* * * * * *', function () {
+  date = new Date();
+})
+
 let chatID = [999999];
 bot.setMyCommands(
       [
@@ -75,7 +84,7 @@ return flag;
   cron.schedule('*/30 * * * *', function() {
     for (let i = 0; i < chatID.length; i++) {
        bot.sendMessage(chatID[i], pleasureWords[getRandomInt(minIndex,maxIndex)]);
-       console.log('Отправлено сообщение');
+       console.log('Отправлено сообщение' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
     } 
   });
   cron.schedule('0 7 * * *', function() {
@@ -83,7 +92,7 @@ return flag;
     day = date.getDay();
     for (let i = 0; i < chatID.length; i++) {
       if (chatID[i]==999999) {
-        console.log('Отправленно на тестовый чат 999999');
+        console.log('Отправленно на тестовый чат 999999' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       }
       else {
         bot.sendPhoto(chatID[i],week[day]);
@@ -123,22 +132,22 @@ bot.on ('callback_query', async msg => {
   const chatId = msg.message.chat.id;
   if (data == 'no') {
     if (checkID(chatID,chatId)) {
-      console.log('Количество чатов до удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
+      console.log('Количество чатов до удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       removeID(chatID,chatId);
-      console.log('Количество чатов после удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
+      console.log('Количество чатов после удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен идёт домой');
       return;
     }
     else {
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
+      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен уже дома');
     }
 }
   if (data=='yes') {
     if (!checkID(chatID,chatId)) {
       chatID.push(chatId);
-      console.log('Создан чат' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
+      console.log('Создан чат' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       for (let i = 0; i < chatID.length; i++) {
         console.log(chatID[i]);
       }
@@ -148,7 +157,7 @@ bot.on ('callback_query', async msg => {
   }
     else {
       console.log('Чат уже существует');
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + getSeconds());
+      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен уже работает');
       return;
     }
