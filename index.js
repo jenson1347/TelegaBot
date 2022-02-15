@@ -87,7 +87,7 @@ return flag;
        console.log('Отправлено сообщение' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
     } 
   });
-  cron.schedule('0 7 * * *', function() {
+  cron.schedule('30 7 * * *', function() {
     
     day = date.getDay();
     for (let i = 0; i < chatID.length; i++) {
