@@ -16,8 +16,8 @@ cron.schedule('* * * * * *', function () {
 let chatID = [999999];
 bot.setMyCommands(
       [
-      {command: '/start', description: 'Джентмельмен устраиваться на работу'},
-      {command: '/end', description: 'Джентмельмен заканчивает работать'}
+      {command: '/start', description: 'Устроить Джентельмена на работу'},
+      {command: '/end', description: 'Уволить Джентельмена с работы'}
       ]
       )
 const optionsYes = {
