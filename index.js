@@ -84,7 +84,7 @@ return flag;
   cron.schedule('*/30 * * * *', function() {
     for (let i = 0; i < chatID.length; i++) {
        bot.sendMessage(chatID[i], pleasureWords[getRandomInt(minIndex,maxIndex)]);
-       console.log('Отправлено сообщение' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+       console.log('Отправлено сообщение' + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
     } 
   });
   cron.schedule('0 7 * * *', function() {
@@ -92,10 +92,11 @@ return flag;
     day = date.getDay();
     for (let i = 0; i < chatID.length; i++) {
       if (chatID[i]==999999) {
-        console.log('Отправленно на тестовый чат 999999' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+        console.log('Отправленно на тестовый чат 999999' + '. Время: ' + ' Дата:' + date.getDay() + date.getMonth() + '. ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       }
       else {
         bot.sendPhoto(chatID[i],week[day]);
+        console.log('Отправлена фотография' + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds())
         return;
       }
     };
@@ -132,22 +133,22 @@ bot.on ('callback_query', async msg => {
   const chatId = msg.message.chat.id;
   if (data == 'no') {
     if (checkID(chatID,chatId)) {
-      console.log('Количество чатов до удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов до удаления: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       removeID(chatID,chatId);
-      console.log('Количество чатов после удаления: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов после удаления: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен идёт домой');
       return;
     }
     else {
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен уже дома');
     }
 }
   if (data=='yes') {
     if (!checkID(chatID,chatId)) {
       chatID.push(chatId);
-      console.log('Создан чат' + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Создан чат' + '. Время: ' + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + 'Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       for (let i = 0; i < chatID.length; i++) {
         console.log(chatID[i]);
       }
@@ -157,7 +158,7 @@ bot.on ('callback_query', async msg => {
   }
     else {
       console.log('Чат уже существует');
-      console.log('Количество чатов: ' + chatID.length + '. Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Количество чатов: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен уже работает');
       return;
     }
