@@ -13,7 +13,7 @@ cron.schedule('* * * * * *', function () {
   date = new Date();
 })
 
-let chatID = [999999];
+let chatID = [];
 bot.setMyCommands(
       [
       {command: '/start', description: 'Устроить Джентельмена на работу'},
@@ -40,13 +40,12 @@ const optionsNo = {
 }
 
 function removeID (arr,Id) {
-  let index = 0;
-  index = arr.indexOf(Id);
-  [arr[0], arr[index]] = [arr[index], arr[0]];
-  arr.shift();
-  for (let i = 0; i < arr.length; i++) {
-  }
+  let userId = arr.indexOf(Id);
+  arr.splice(userId,1);
 }
+
+
+
 
 
 let pleasureWords = ["Ты секси", "Я тебя люблю", "Хочу от тебя детей"];
@@ -134,8 +133,8 @@ bot.on ('callback_query', async msg => {
   if (data == 'no') {
     if (checkID(chatID,chatId)) {
       console.log('Количество чатов до удаления: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+      console.log('Удаленный чат: ' + chatId);
       removeID(chatID,chatId);
-      console.log('Количество чатов после удаления: ' + chatID.length + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
       bot.sendMessage(chatId, 'Джентельмен идёт домой');
       return;
     }
