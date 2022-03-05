@@ -9,7 +9,7 @@ const shell = require("shelljs");
 var date; 
 
 
-cron.schedule('* * * * * *', function () {
+cron.schedule('* 0 * * *', function () {
   date = new Date();
 })
 
@@ -90,18 +90,11 @@ return flag;
     
     day = date.getDay();
     for (let i = 0; i < chatID.length; i++) {
-      if (chatID[i]==999999) {
-        console.log('Отправленно на тестовый чат 999999' + '. Время: ' + ' Дата:' + date.getDay() + date.getMonth() + '. ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
-      }
-      else {
         bot.sendPhoto(chatID[i],week[day]);
         console.log('Отправлена фотография' + ' Дата: ' + date.getDay() + '-день, ' + date.getMonth() + '-месяц.' + ' Время: ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds())
-        return;
       }
-    };
-
-  })
-
+    }
+  );
 
 bot.on('message', async msg => {
   const text = msg.text;
