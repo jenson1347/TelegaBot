@@ -9,7 +9,7 @@ const shell = require("shelljs");
 var date; 
 
 
-cron.schedule('* 0 * * *', function () {
+cron.schedule('* * * * * *', function () {
   date = new Date();
 })
 
